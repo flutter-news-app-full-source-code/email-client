@@ -18,6 +18,7 @@ abstract class HtEmailClient {
   /// via templates. This decouples the application logic from the email
   /// presentation layer.
   ///
+  /// - [senderEmail]: The email address of the sender.
   /// - [recipientEmail]: The email address of the recipient.
   /// - [templateId]: The unique identifier for the dynamic template stored in
   ///   the email service provider.
@@ -30,6 +31,7 @@ abstract class HtEmailClient {
   /// - [ServerException] if the email service reports a server-side error.
   /// - [OperationFailedException] for other unexpected errors during sending.
   Future<void> sendTransactionalEmail({
+    required String senderEmail,
     required String recipientEmail,
     required String templateId,
     required Map<String, dynamic> templateData,
