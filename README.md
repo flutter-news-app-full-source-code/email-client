@@ -23,23 +23,23 @@ Then run `dart pub get`.
 
 ## Features
 
-*   **`HtEmailClient` Abstract Class:** Defines the core interface for email sending operations.
-    *   `Future<void> sendOtpEmail({required String recipientEmail, required String otpCode})`: Sends a One-Time Password email. Implementations must handle underlying service errors and map them to standard `ht_shared` exceptions.
+*   **`HtEmailClient` Abstract Class:** Defines a generic, provider-agnostic interface for sending transactional emails. This approach decouples application logic from email content and styling, which can be managed directly within your email service provider (e.g., SendGrid, AWS SES).
+    *   `Future<void> sendTransactionalEmail({required String recipientEmail, required String templateId, required Map<String, dynamic> templateData})`: Sends an email using a pre-defined template. Implementations must handle underlying service errors and map them to standard `ht_shared` exceptions.
 
 ## Usage
 
-This package only provides the abstract interface. You need a concrete implementation package that implements `HtEmailClient`.
+This package only provides the abstract interface. You need a concrete implementation package (e.g., `ht_email_sendgrid`) that implements `HtEmailClient`.
 
 In your backend application (e.g., Dart Frog), you would typically:
 
-1.  Depend on a concrete implementation package (e.g., `ht_email_client_smtp`).
-2.  Configure and provide an instance of the concrete client using dependency injection (e.g., Dart Frog's provider).
-3.  Inject `HtEmailClient` into your services or route handlers where email sending is required.
+1.  Depend on a concrete implementation package.
+2.  Configure and provide an instance of the concrete client using dependency injection.
+3.  Inject `HtEmailClient` into your services where email sending is required.
 
 ```dart
 // Example (Conceptual - in a service or route handler)
 import 'package:ht_email_client/ht_email_client.dart';
-import 'package:ht_shared/ht_shared.dart'; // For User model
+import 'package:ht_shared/ht_shared.dart';
 
 class AuthService {
   const AuthService({required HtEmailClient emailClient}) 
@@ -47,14 +47,17 @@ class AuthService {
 
   final HtEmailClient _emailClient;
 
-  Future<void> sendVerificationEmail(User user, String otp) async {
-    if (user.email == null) {
-      throw InvalidInputException('User email is missing.');
-    }
+  Future<void> sendVerificationEmail(String email, String otp) async {
     try {
-      await _emailClient.sendOtpEmail(
-        recipientEmail: user.email!,
-        otpCode: otp,
+      // Use the generic method to send an email via a template.
+      // The template ID and data structure are managed by the email provider.
+      await _emailClient.sendTransactionalEmail(
+        recipientEmail: email,
+        templateId: 'd-1234567890abcdef1234567890abcdef', // Example SendGrid Template ID
+        templateData: {
+          'otp_code': otp,
+          'username': 'Valued User',
+        },
       );
       // Handle success
     } on HtHttpException {
