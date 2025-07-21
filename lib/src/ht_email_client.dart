@@ -11,22 +11,27 @@ abstract class HtEmailClient {
   /// {@macro ht_email_client}
   const HtEmailClient();
 
-  /// Sends a One-Time Password (OTP) email to the specified recipient.
+  /// Sends a transactional email using a pre-defined template.
   ///
-  /// Implementations are responsible for constructing the email content
-  /// (subject, body) using the provided [otpCode] and sending it via
-  /// their configured email service.
+  /// This method is designed to be provider-agnostic, relying on the email
+  /// service (e.g., SendGrid, AWS SES) to manage the actual email content
+  /// via templates. This decouples the application logic from the email
+  /// presentation layer.
   ///
-  /// Throws [HtHttpException] subtypes on failure:
-  /// - [InvalidInputException] if the recipient email format is invalid.
+  /// - [recipientEmail]: The email address of the recipient.
+  /// - [templateId]: The unique identifier for the dynamic template stored in
+  ///   the email service provider.
+  /// - [templateData]: A map of dynamic data to be merged into the template.
+  ///   For example: `{'otpCode': '123456', 'username': 'Alex'}`.
+  ///
+  /// Throws [HtHttpException] or its subtypes on failure:
+  /// - [InvalidInputException] if input parameters are invalid.
   /// - [NetworkException] for connectivity issues with the email service.
   /// - [ServerException] if the email service reports a server-side error.
   /// - [OperationFailedException] for other unexpected errors during sending.
-  Future<void> sendOtpEmail({
+  Future<void> sendTransactionalEmail({
     required String recipientEmail,
-    required String otpCode,
-    // Optional: Add parameters like subject, templateId if needed later
+    required String templateId,
+    required Map<String, dynamic> templateData,
   });
-
-  // Add other email sending methods here as needed (e.g., sendWelcomeEmail)
 }
