@@ -1,17 +1,17 @@
-name: ht_email_client
-description: Defines the abstract interface for email clients used within the Headlines Toolkit backend systems.
-repository: https://github.com/headlines-toolkit/ht-email-client
+name: email_client
+description: This package provides the contract (EmailClient) that concrete implementations (e.g., SMTP, AWS SES, SendGrid clients) should adhere to.
+repository: https://github.com/flutter-news-app-full-source-code/email-client
 publish_to: none
 
 environment:
   sdk: ^3.8.0
 
 dependencies: 
-  ht_shared:
+  core:
     git:
-      url: https://github.com/headlines-toolkit/ht-shared.git
+      url: https://github.com/flutter-news-app-full-source-code/core.git
 
 dev_dependencies:
   mocktail: ^1.0.4
   test: ^1.25.8
-  very_good_analysis: ^7.0.0
+  very_good_analysis: ^9.0.0

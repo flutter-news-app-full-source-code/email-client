@@ -1,15 +1,15 @@
-import 'package:ht_shared/ht_shared.dart';
+import 'package:core/core.dart';
 
-/// {@template ht_email_client}
+/// {@template email_client}
 /// Defines the interface for sending emails within the backend system.
 ///
 /// Concrete implementations (e.g., using specific email providers like
 /// SendGrid, AWS SES, or a local SMTP server for testing) will handle the
 /// actual email dispatch.
 /// {@endtemplate}
-abstract class HtEmailClient {
-  /// {@macro ht_email_client}
-  const HtEmailClient();
+abstract class EmailClient {
+  /// {@macro email_client}
+  const EmailClient();
 
   /// Sends a transactional email using a pre-defined template.
   ///
@@ -25,7 +25,7 @@ abstract class HtEmailClient {
   /// - [templateData]: A map of dynamic data to be merged into the template.
   ///   For example: `{'otpCode': '123456', 'username': 'Alex'}`.
   ///
-  /// Throws [HtHttpException] or its subtypes on failure:
+  /// Throws [HttpException] or its subtypes on failure:
   /// - [InvalidInputException] if input parameters are invalid.
   /// - [NetworkException] for connectivity issues with the email service.
   /// - [ServerException] if the email service reports a server-side error.
