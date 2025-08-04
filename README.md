@@ -24,7 +24,7 @@ Then run `dart pub get`.
 ## Features
 
 *   **`EmailClient` Abstract Class:** Defines a generic, provider-agnostic interface for sending transactional emails. This approach decouples application logic from email content and styling, which can be managed directly within your email service provider (e.g., SendGrid, AWS SES).
-    *   `Future<void> sendTransactionalEmail({required String senderEmail, required String recipientEmail, required String templateId, required Map<String, dynamic> templateData})`: Sends an email using a pre-defined template. Implementations must handle underlying service errors and map them to standard `core` exceptions.
+    *   `Future<void> sendTransactionalEmail({required String senderEmail, required String recipientEmail, required String subject, required String templateId, required Map<String, dynamic> templateData})`: Sends an email using a pre-defined template. Implementations must handle underlying service errors and map them to standard `core` exceptions.
 
 ## Usage
 
@@ -54,6 +54,7 @@ class AuthService {
       await _emailClient.sendTransactionalEmail(
         senderEmail: 'noreply@example.com',
         recipientEmail: email,
+        subject: 'Your Verification Code',
         templateId: 'd-1234567890abcdef1234567890abcdef', // Example SendGrid Template ID
         templateData: {
           'otp_code': otp,
