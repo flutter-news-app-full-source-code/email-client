@@ -20,6 +20,7 @@ abstract class EmailClient {
   ///
   /// - [senderEmail]: The email address of the sender.
   /// - [recipientEmail]: The email address of the recipient.
+  /// - [subject]: The subject line of the email.
   /// - [templateId]: The unique identifier for the dynamic template stored in
   ///   the email service provider.
   /// - [templateData]: A map of dynamic data to be merged into the template.
@@ -33,6 +34,7 @@ abstract class EmailClient {
   Future<void> sendTransactionalEmail({
     required String senderEmail,
     required String recipientEmail,
+    required String subject,
     required String templateId,
     required Map<String, dynamic> templateData,
   });
