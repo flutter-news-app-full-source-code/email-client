@@ -21,7 +21,7 @@ This package offers a comprehensive set of features for managing email sending o
 
 ### 🚀 Abstract `EmailClient` Interface
 - **`EmailClient` Abstract Class:** Defines a generic, provider-agnostic interface for sending transactional emails. This decouples application logic from specific email service providers.
-- **`sendTransactionalEmail` Method:** Provides a method for sending emails using pre-defined templates, requiring `senderEmail`, `recipientEmail`, `templateId`, and `templateData`. This allows email content and styling to be managed directly within the email service provider.
+- **`sendTransactionalEmail` Method:** Provides a method for sending emails using pre-defined templates, requiring `senderEmail`, `recipientEmail`, `subject`, `templateId`, and `templateData`. This allows email content and styling to be managed directly within the email service provider.
 
 ### 🛡️ Standardized Error Handling
 - **`HttpException` Propagation:** Implementations are expected to handle underlying service errors and map them to standard `HttpException` subtypes (from `core`), ensuring consistent error management across the application layers.
