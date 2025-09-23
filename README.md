@@ -1,78 +1,38 @@
-# email_client
+<div align="center">
+  <img src="https://avatars.githubusercontent.com/u/202675624?s=400&u=dc72a2b53e8158956a3b672f8e52e39394b6b610&v=4" alt="Flutter News App Toolkit Logo" width="220">
+  <h1>Email Client</h1>
+  <p><strong>An abstract interface for sending emails within the Flutter News App Toolkit.</strong></p>
+</div>
 
-![coverage: percentage](https://img.shields.io/badge/coverage-XX-green)
-[![style: very good analysis](https://img.shields.io/badge/style-very_good_analysis-B22C89.svg)](https://pub.dev/packages/very_good_analysis)
-[![License: PolyForm Free Trial](https://img.shields.io/badge/License-PolyForm%20Free%20Trial-blue)](https://polyformproject.org/licenses/free-trial/1.0.0)
+<p align="center">
+  <img src="https://img.shields.io/badge/coverage-100%25-green?style=for-the-badge" alt="coverage">
+  <a href="https://flutter-news-app-full-source-code.github.io/docs/"><img src="https://img.shields.io/badge/LIVE_DOCS-VIEW-slategray?style=for-the-badge" alt="Live Docs: View"></a>
+  <a href="https://github.com/flutter-news-app-full-source-code"><img src="https://img.shields.io/badge/MAIN_PROJECT-BROWSE-purple?style=for-the-badge" alt="Main Project: Browse"></a>
+</p>
 
-This package provides the contract (`EmailClient`) that concrete implementations (e.g., SMTP, AWS SES, SendGrid clients) should adhere to.
+This `email_client` package defines the abstract interface (`EmailClient`) for sending emails within the [**Flutter News App Full Source Code Toolkit**](https://github.com/flutter-news-app-full-source-code). It establishes a clear contract that concrete implementations (e.g., using SMTP, AWS SES, SendGrid) should adhere to. This approach decouples application logic from specific email service providers and email content/styling, which can be managed directly within your chosen email service. This package is crucial for backend services (like a Dart Frog API) that require robust and flexible email dispatch capabilities.
 
-## Getting Started
+## ⭐ Feature Showcase: Flexible & Provider-Agnostic Email Dispatch
 
-To use this package in your Dart backend project (like Dart Frog), add it to your `pubspec.yaml` file:
+This package offers a comprehensive set of features for managing email sending operations.
 
-```yaml
-dependencies:
-  email_client:
-    git:
-      url: https://github.com/flutter-news-app-full-source-code/email-client.git
-      # Use a specific ref/tag for stability in production
-      # ref: main 
-```
+<details>
+<summary><strong>🧱 Core Functionality</strong></summary>
 
-Then run `dart pub get`.
+### 🚀 Abstract `EmailClient` Interface
+- **`EmailClient` Abstract Class:** Defines a generic, provider-agnostic interface for sending transactional emails. This decouples application logic from specific email service providers.
+- **`sendTransactionalEmail` Method:** Provides a method for sending emails using pre-defined templates, requiring `senderEmail`, `recipientEmail`, `templateId`, and `templateData`. This allows email content and styling to be managed directly within the email service provider.
 
-## Features
+### 🛡️ Standardized Error Handling
+- **`HttpException` Propagation:** Implementations are expected to handle underlying service errors and map them to standard `HttpException` subtypes (from `core`), ensuring consistent error management across the application layers.
 
-*   **`EmailClient` Abstract Class:** Defines a generic, provider-agnostic interface for sending transactional emails. This approach decouples application logic from email content and styling, which can be managed directly within your email service provider (e.g., SendGrid, AWS SES).
-    *   `Future<void> sendTransactionalEmail({required String senderEmail, required String recipientEmail, required String subject, required String templateId, required Map<String, dynamic> templateData})`: Sends an email using a pre-defined template. Implementations must handle underlying service errors and map them to standard `core` exceptions.
+### 💉 Implementation Agnostic
+- **Interchangeable Implementations:** Designed to be implemented by various email service providers (e.g., SendGrid, AWS SES, local SMTP), allowing developers to swap email solutions without altering core application logic.
 
-## Usage
+> **💡 Your Advantage:** This package provides a clear, abstract interface for email sending, decoupling your application from specific email service providers. This design promotes flexibility, testability, and maintainability, allowing you to easily integrate and swap email solutions as needed.
 
-This package only provides the abstract interface. You need a concrete implementation package (e.g., `ht_email_sendgrid`) that implements `EmailClient`.
-
-In your backend application (e.g., Dart Frog), you would typically:
-
-1.  Depend on a concrete implementation package.
-2.  Configure and provide an instance of the concrete client using dependency injection.
-3.  Inject `EmailClient` into your services where email sending is required.
-
-```dart
-// Example (Conceptual - in a service or route handler)
-import 'package:email_client/email_client.dart';
-import 'package:core/core.dart';
-
-class AuthService {
-  const AuthService({required EmailClient emailClient}) 
-    : _emailClient = emailClient;
-
-  final EmailClient _emailClient;
-
-  Future<void> sendVerificationEmail(String email, String otp) async {
-    try {
-      // Use the generic method to send an email via a template.
-      // The template ID and data structure are managed by the email provider.
-      await _emailClient.sendTransactionalEmail(
-        senderEmail: 'noreply@example.com',
-        recipientEmail: email,
-        subject: 'Your Verification Code',
-        templateId: 'd-1234567890abcdef1234567890abcdef', // Example SendGrid Template ID
-        templateData: {
-          'otp_code': otp,
-          'username': 'Valued User',
-        },
-      );
-      // Handle success
-    } on HttpException {
-      // Handle specific email sending errors (e.g., log, return error response)
-      rethrow; 
-    }
-  }
-}
-```
-
+</details>
 
 ## 🔑 Licensing
 
-This package is source-available and licensed under the [PolyForm Free Trial 1.0.0](LICENSE). Please review the terms before use.
-
-For commercial licensing options that grant the right to build and distribute unlimited applications, please visit the main [**Flutter News App - Full Source Code Toolkit**](https://github.com/flutter-news-app-full-source-code) organization.
+This `email_client` package is an integral part of the [**Flutter News App Full Source Code Toolkit**](https://github.com/flutter-news-app-full-source-code). For comprehensive details regarding licensing, including trial and commercial options for the entire toolkit, please refer to the main toolkit organization page.
